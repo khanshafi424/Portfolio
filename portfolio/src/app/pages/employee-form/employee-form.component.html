@@ -1,0 +1,92 @@
+<div class="container-fluid mt-5">
+    <div class="card">
+        <div class="card-header bg-warning">
+            New Employee
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Name:</label>
+                    <input type="text" [(ngModel)]="employeeObj.fullName" class="form-control" placeholder="Enter Name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="">Email:</label>
+                    <input type="text" [(ngModel)]="employeeObj.email" class="form-control" placeholder="Enter Email">
+                </div>
+                <div class="col-3">
+                    <label for="">Phone:</label>
+                    <input type="text"  #phone="ngModel" pattern="^[0-9]{10}$" [(ngModel)]="employeeObj.phone" class="form-control" placeholder="Enter Phone number" required>
+                    <div class="text-danger" *ngIf="phone.invalid && phone.touched">
+                        <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
+                        <small *ngIf="phone.errors?.['pattern']">Phone number must be 10 digits.</small>
+                      </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label >Gender</label>
+                    <div class="form-check">
+                        <input type="radio" [(ngModel)]="employeeObj.gender" class="form-check-input" id="radio1" name="gender" value="male" checked>Male
+                        <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" [(ngModel)]="employeeObj.gender" class="form-check-input" id="radio1" name="gender" value="female"
+                            checked>Female
+                        <label class="form-check-label" for="female"></label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label for="">Date of Joining:</label>
+                    <input type="date" [(ngModel)]="employeeObj.dateOfJoining" class="form-control" name="gender" placeholder="date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <label for="">Select Department:</label>
+                    <select (change)="getDesignationByDeptId()" [(ngModel)]="employeeObj.departmentId" class="form-select">
+                        <option value="">Select Department</option>
+                        <option *ngFor="let dept of (deptList$ | async) || []" [value]="dept.departmentId">{{dept.departmentName}}</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="">Select Designation:</label>
+                    <select  [(ngModel)]="employeeObj.designationId" class="form-select">
+                        <option value="">Select Designation</option>
+                        <option *ngFor="let desig of designationList" [value]="desig.designationId">{{desig.designationName}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <label for="">Select Employee Type:</label>
+                    <select name="" id="" [(ngModel)]="employeeObj.employeeType" class="form-select">
+                        <option value="">Select</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Parmenent">Parmenent</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="">Salary:</label>
+                   <input type="number" [(ngModel)]="employeeObj.salary" class="form-control" placeholder="please Enter Salary">
+                </div>
+            </div>
+
+            <div class="row pt-3 text-center">
+                <div class="col-3 ">
+                   <button class="btn btn-secondary" (click)="onResetEmplyee()"> Reset</button>
+                </div>
+                <div class="col-3">
+                    @if (employeeObj.employeeId === 0) {
+                        <button class="btn btn-success" (click)="onSaveEmplyee()"> Save Employee</button>
+                    } @else {
+                        <button class="btn btn-success" (click)="onUpdateEmplyee()"> Update Employee</button>
+                    }
+                </div>
+            </div>
+         </div>
+        </div>     
+    </div>
