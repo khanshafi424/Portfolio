@@ -20,6 +20,7 @@ export class EmployeeFormComponent {
   designationList: IDesignation[] = []
   editEmpId: number = 0;
 
+
   constructor(private employeeService: EmployeeService,
     private activateRoute: ActivatedRoute
   ) {
