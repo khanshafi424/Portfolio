@@ -15,31 +15,30 @@ export class EmployeeListComponent implements OnInit {
 
   empService = inject(EmployeeService)
   router = inject(Router);
-  employeeList: IEmployeeList [] = [];
+  employeeList: IEmployeeList[] = [];
 
   ngOnInit(): void {
     this.getEmployee();
-    
   }
 
   getEmployee() {
-    this.empService.getAllEmployee().subscribe( (res: IEmployeeList[]) => {
+    this.empService.getAllEmployee().subscribe((res: IEmployeeList[]) => {
       this.employeeList = res;
     })
   }
 
   deleteEmployee(employeeId: number) {
-     const isDelete = confirm("Are you want to Delete")
-     if(isDelete) {
-      this.empService.deleteEmployee(employeeId).subscribe( (res) => {
+    const isDelete = confirm("Are you want to Delete")
+    if (isDelete) {
+      this.empService.deleteEmployee(employeeId).subscribe((res) => {
         alert("Employee Deleted Successfully")
         this.getEmployee();
       })
-     }
+    }
   }
 
-  EditEployee(id: number){
-    this.router.navigateByUrl("edit-employee/"+ id)
+  EditEployee(id: number) {
+    this.router.navigateByUrl("edit-employee/" + id)
   }
 
 }

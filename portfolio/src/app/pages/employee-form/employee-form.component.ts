@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Employee, IDepartment, IDesignation } from '../../model/employee';
 import { EmployeeService } from '../../employee.service';
-import { Observable, retry } from 'rxjs';
-import { AsyncPipe, NgFor, NgIf} from '@angular/common';
+import { Observable } from 'rxjs';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -16,19 +16,17 @@ import { ActivatedRoute } from '@angular/router';
 export class EmployeeFormComponent {
 
   public employeeObj: Employee = new Employee();
-  deptList$: Observable<IDepartment[]> = new Observable<IDepartment[]>(); 
-  designationList:IDesignation[] = []
+  deptList$: Observable<IDepartment[]> = new Observable<IDepartment[]>();
+  designationList: IDesignation[] = []
   editEmpId: number = 0;
 
-
-
-  constructor(private employeeService: EmployeeService, 
-   private activateRoute : ActivatedRoute
+  constructor(private employeeService: EmployeeService,
+    private activateRoute: ActivatedRoute
   ) {
-    this.deptList$ =  this.employeeService.getAllDepartment();
-    this.activateRoute.params.subscribe( (res:any) => {
+    this.deptList$ = this.employeeService.getAllDepartment();
+    this.activateRoute.params.subscribe((res: any) => {
       this.editEmpId = res.id;
-      if (this.editEmpId !=0) {
+      if (this.editEmpId != 0) {
         this.getEditEmployee();
       }
     })
@@ -55,14 +53,14 @@ export class EmployeeFormComponent {
   }
 
   getEditEmployee() {
-    this.employeeService.getEditEmployeeById(this.editEmpId).subscribe( (res:any) => {
+    this.employeeService.getEditEmployeeById(this.editEmpId).subscribe((res: any) => {
       this.employeeObj = res;
       this.employeeObj.dateOfJoining = this.formatDateToYMD(this.employeeObj.dateOfJoining)
       this.getDesignationByDeptId();
     })
   }
 
-  formatDateToYMD(dateString : string) {
+  formatDateToYMD(dateString: string) {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -71,7 +69,7 @@ export class EmployeeFormComponent {
   }
 
   onUpdateEmplyee() {
-    this.employeeService.updateEmployee(this.employeeObj).subscribe((res) =>{
+    this.employeeService.updateEmployee(this.employeeObj).subscribe((res) => {
       alert("Employee Updated")
     }, error => {
       alert("Api Error" + error.error)
